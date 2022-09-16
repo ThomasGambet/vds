@@ -63,14 +63,14 @@ function afficher() {
 
             // ajouter une icône pour indiquer l'état du corps du cadre : fermé ou ouvert
             let i = document.createElement('i');
-            i.classList.add("bi", "bi-arrow-bar-down", "float-end");
+            i.classList.add("bi", "bi-arrow-bar-up", "float-end");
 
             entete.appendChild(i);
             cadre.appendChild(entete);
 
             let conteneur = document.createElement('div');
             conteneur.classList.add("card-body", "corpsCadre");
-            conteneur.style.display = "none"
+            conteneur.style.display = "block"
 
             // si présence d'une photo
             if(element.present === 1) {

@@ -13,13 +13,13 @@ class Mail {
         //Server settings
         // $this->mail->SMTPDebug = SMTP::DEBUG_SERVER;
         $this->mail->isSMTP();
-        $this->mail->Host       = '';
+        $this->mail->Host       = 'smtp-thomasgambet.alwaysdata.net';
         $this->mail->SMTPAuth   = true;
-        $this->mail->Username   = '';
-        $this->mail->Password   = '';
+        $this->mail->Username   = 'thomasgambet@alwaysdata.net';
+        $this->mail->Password   = 'SlamSr.2023';
         $this->mail->SMTPSecure = 'ssl';
         $this->mail->Port = 465;
-        $this->mail->setFrom('', '');
+        $this->mail->setFrom('thomasgambet@alwaysdata.net', 'ThomasG');
 
     }
 

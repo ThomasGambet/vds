@@ -30,10 +30,11 @@ function init() {
                 dataType: "json",
                 error: (reponse) => {
                     msg.innerHTML = Std.genererMessage(reponse.responseText, 'rouge')
+                    //Std.afficherErreur(reponse.responseText)
+                    btnEnvoyer.disabled = false;
                 },
                 success: () => {
                     msg.innerHTML = Std.genererMessage("Votre login vient de vous êtes envoyé par mail", 'vert')
-                    btnEnvoyer.disabled = true;
                     Std.viderLesChamps();
                 }
             })

@@ -10,11 +10,20 @@ class Database
     public static function getInstance()
     {
         if (is_null(self::$_instance)) {
-			$dbHost = 'localhost';
-            $dbUser = 'root';
-            $dbPassword = '';
-            $dbBase =  'vds';
-            $dbPort = 3306;
+            if ($_SERVER['SERVER_NAME'] === 'vds') {
+                $dbHost = 'localhost';
+                $dbUser = 'root';
+                $dbPassword = '';
+                $dbBase = 'vds';
+                $dbPort = 3306;
+            } else {
+                $dbHost = 'mysql-thomasgambet.alwaysdata.net';
+                $dbUser = '281099';
+                $dbPassword = 'SlamSr.2023';
+                $dbBase =  'thomasgambet_vds';
+                $dbPort = 3306;
+            }
+
             try {
                 $chaine = "mysql:host=$dbHost;dbname=$dbBase;port=$dbPort";
                 $db = new PDO($chaine, $dbUser, $dbPassword);

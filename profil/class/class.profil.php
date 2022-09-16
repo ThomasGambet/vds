@@ -3,11 +3,12 @@
 class Profil
 {
     /**
+     * Retourne le login et l'e-mail
      * @param string $nom Nom du membre
      * @param string $prenom PRénom du membre
      * @return array|bool
      */
-    public static function getMembreByNomPrenom(string $nom, string $prenom): array | bool
+    public static function getMembreByNomPrenom(string $nom, string $prenom): array|bool
     {
         $sql = <<<EOD
             SELECT login, email
@@ -29,7 +30,12 @@ EOD;
         }
     }
 
-    public static function getMembreByLogin(string $login): array | bool
+    /**
+     * Retourne l'id, le login, le nom, le prénom et le mot de passe de l'utilisateur à partir de son login
+     * @param string $login
+     * @return array|bool
+     */
+    public static function getMembreByLogin(string $login): array|bool
     {
         $sql = <<<EOD
             SELECT id, login, nom, prenom, password
@@ -51,8 +57,12 @@ EOD;
     }
 
 
-
-    public static function getMembreById(string $id ): array | bool
+    /**
+     * Retourne le nom, le prénom, le téléphone, la photo et l'autorisation d'afficher l'e-mail
+     * @param string $id
+     * @return array|bool
+     */
+    public static function getMembreById(string $id): array|bool
     {
         $db = Database::getInstance();
         $sql = <<<EOD
@@ -69,14 +79,19 @@ EOD;
             return $ligne;
 
         } catch (Exception $e) {
-
-            $erreur = "Erreur innattendue, nous recherchons une solution au problème";
             return false;
         }
     }
 
-
-    public static function getLesMembres() : array {
+    /**
+     * Retourne le nom, le prénom, la concaténation nom prénom
+     * l'e-mail ou 'non communiqué' si autMail = false
+     * telephone ou 'non renseigné' si telephone is null
+     * photo ou 'non renseigné' si photo is null
+     * @return array
+     */
+    public static function getLesMembres(): array
+    {
         $db = Database::getInstance();
         $sql = <<<EOD
             Select nom, prenom, concat(nom, ' ', prenom) as nomPrenom,   
@@ -92,8 +107,16 @@ EOD;
         return $lesLignes;
     }
 
-
-    public static function modifierColonne(string $colonne, string $valeur, int $id, string &$erreur) : bool {
+    /**
+     * Modifier la valeur 'une colonne (telephone, photo) d'un enregistrement de la table mémoire
+     * @param string $colonne
+     * @param string $valeur
+     * @param int $id
+     * @param string $erreur
+     * @return bool
+     */
+    public static function modifierColonne(string $colonne, string $valeur, int $id, string &$erreur): bool
+    {
         $db = Database::getInstance();
         $ok = true;
         $erreur = "";
@@ -108,13 +131,14 @@ EOD;
         try {
             $curseur->execute();
         } catch (Exception $e) {
-            $erreur = substr($e->getMessage(),strrpos($e->getMessage(), '#') + 1);
+            $erreur = substr($e->getMessage(), strrpos($e->getMessage(), '#') + 1);
             $ok = false;
         }
         return $ok;
     }
 
-    public static function effacerColonne(string $colonne, int $id, string &$erreur) : bool {
+    public static function effacerColonne(string $colonne, int $id, string &$erreur): bool
+    {
         $db = Database::getInstance();
         $ok = true;
         $erreur = "";
@@ -128,13 +152,14 @@ EOD;
         try {
             $curseur->execute();
         } catch (Exception $e) {
-            $erreur = substr($e->getMessage(),strrpos($e->getMessage(), '#') + 1);
+            $erreur = substr($e->getMessage(), strrpos($e->getMessage(), '#') + 1);
             $ok = false;
         }
         return $ok;
     }
 
-    public static function enregistrerTelephone(int $id, string $telephone) : int | string {
+    public static function enregistrerTelephone(int $id, string $telephone): int|string
+    {
         $db = Database::getInstance();
         $sql = <<<EOD
             Update membre 
@@ -148,7 +173,7 @@ EOD;
             $curseur->execute();
             return 1;
         } catch (Exception $e) {
-            return substr($e->getMessage(),strrpos($e->getMessage(), '#') + 1);
+            return substr($e->getMessage(), strrpos($e->getMessage(), '#') + 1);
         }
     }
 }
