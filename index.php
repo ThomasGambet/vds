@@ -106,6 +106,15 @@ require RACINE . '/include/head.php';
     </div>
 </div>
 
+<div class="card border-dark mx-2 mb-2">
+    <div class="card-header text-white" style="background-color: #343a40">
+        <span style="" class="card-text">Partenaires</span>
+    </div>
+    <div class="card-body text-center">
+        <div id='logo' class=""></div>
+    </div>
+</div>
+
 <?php
 if ($cadreAdmin !== '') {
     ?>
@@ -120,4 +129,6 @@ if ($cadreAdmin !== '') {
     <?php
 }
 ?>
+
+
 <?php require RACINE . '/include/pied.php'; ?>

@@ -5,7 +5,7 @@ class Base
     /**
      * @return string|null : Retourne le texte du bandeau qui peut être vide
      */
-    public static function getLeBandeau(): string | null
+    public static function getLeBandeau(): string|null
     {
         $db = Database::getInstance();
         $sql = "Select contenu From bandeau;";
@@ -15,6 +15,15 @@ class Base
         return $contenu;
     }
 
+    public static function getLesPartenaires(): array
+    {
+        $db = Database::getInstance();
+        $sql = "Select id, nom, logo, actif From partenaire;";
+        $curseur = $db->query($sql);
+        $partenaire = $curseur->fetchAll(PDO::FETCH_ASSOC);
+        $curseur->closeCursor();
+        return $partenaire;
+    }
 
 
     /**

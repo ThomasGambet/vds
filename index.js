@@ -52,10 +52,16 @@ function afficher(data) {
 
 
     // affichage des partenaires
-
-
+    for (const partenaire of data.partenaire) {
+        if (partenaire.actif === 1) {
+            let img = document.createElement('img');
+            img.src = 'partenaire/data/img/' + partenaire.logo;
+            img.alt = "";
+            logo.appendChild(img)
+        }
+    }
     // affichage des liens
 
-    
+
     pied.style.visibility = 'visible';
 }

@@ -13,7 +13,6 @@ class Membre
      */
     public static function ajouter(string $nom, string $prenom, string $email, string &$reponse): bool
     {
-        $db = Database::getInstance();
         $ok = false;
         $sql = <<<EOD
             Select id
