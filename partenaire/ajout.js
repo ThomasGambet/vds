@@ -1,0 +1,51 @@
+"use strict";
+
+/**
+ * Saisie d'un nouveau partenaire
+ *     Contrôle des champs de saisie par expression régulière
+ *         Tous les champs sont obligatoires
+ */
+
+window.onload = init;
+
+/**
+ * Mise en place des gestionnaires d'événement sur les différents composants de l'interface
+ */
+function init() {
+
+    // limiter les caractères autorisés lors de la frappe sur le champ nom
+    nom.onkeypress = (e) => /^[A-Za-z ]$/.test(e.key);
+    nom.focus();
+
+    pied.style.visibility = 'visible';
+
+    // traitement associé au bouton 'Ajouter'
+    btnAjouter.onclick = () => {
+        if (Std.donneesValides()) {
+            // lancement de la demande d'ajout dans la base
+            msg.innerHTML = "";
+            $.ajax({
+                url: 'ajax/ajouter.php',
+                type: 'POST',
+                data: {
+                    nom: nom.value,
+                    logo: logo.value,
+                },
+                dataType: 'json',
+                error: reponse => {
+                    msg.innerHTML = Std.genererMessage(reponse.responseText)
+                },
+                success: function (data) {
+                    let parametre = {
+                        type: 'success',
+                        message: 'Ajout réalisé avec succès',
+                        fermeture: 1,
+                    }
+                    Std.afficherMessage(parametre);
+                    Std.viderLesChamps()
+                }
+            })
+        }
+    }
+}
+
