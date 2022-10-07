@@ -25,22 +25,14 @@ require RACINE . '/include/head.php';
                    autocomplete="off">
             <div class='messageErreur'></div>
         </div>
-        <input type="file" id="fichier" accept=".jpg, .png" style='display:none'>
-        <div class="col-md-6 col-12 text-center">
-            <div id="cible" class="upload"
-                 data-bs-trigger="hover"
-                 data-bs-placement="bottom"
-                 data-bs-html="true"
-                 data-bs-title="<b>Règles à respecter<b>"
-                 data-bs-content="Extensions acceptées : jpg et png<br>Taille limitée à 30 Ko<br>Dimension maximale : 150 * 150">
-                <i class="bi bi-cloud-upload" style="font-size: 4rem; color: #8b8a8a;"></i>
-                <div>Cliquez ou déposer la photo ici</div>
-            </div>
-            <div class="form-group">
-                <img src="<?php echo is_file('data/img') ?>" alt="" id="cimg">
-            </div>
-            <div id="messageCible" class="messageErreur"></div>
+        <input type="file" id="photo" accept=".jpg, .png, .gif" style='display:none'>
+        <label class="col-form-label">Logo à ajouter</label>
+        <div id="cible" class="upload">
+            <i class="bi bi-cloud-upload m-1" style="font-size:2rem"></i>
+            Déposer le logo (png ou jpg) dans ce cadre (taille limitée à 30 Ko)
         </div>
+        <span id="messagePhoto" class="messageErreur"></span>
+        <div id='lesPhotos' class="text-center mt-3"></div>
     </div>
     <div class="text-center">
         <button id='btnAjouter' class="btn btn btn-danger">Ajouter</button>

@@ -139,7 +139,19 @@ EOD;
      * @param string $libelle Libellé de l'erreur
      * @return void
      */
-    public static function traiterErreur(string $libelle) : void
+
+
+    public static function necessiteConnexion(): void
+    {
+        if (!isset($_SESSION['membre'])) {
+            $_SESSION['url'] = $_SERVER['PHP_SELF'];
+            header("location:/profil/connexion.php");
+            exit;
+        }
+    }
+
+
+    public static function traiterErreur(string $libelle): void
     {
 
         $_SESSION['erreur'] = $libelle;
@@ -148,7 +160,7 @@ EOD;
     }
 
     /**
-     * mémoriser l'erreur dans le fichier erreur.log afficher l'ereurr et arrêter le sript
+     * Mémoriser l'erreur dans le fichier erreur.log afficher l'erreur et arrêter le script
      * @param string $libelle Libellé de l'erreur
      * @return void
      */
