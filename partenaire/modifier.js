@@ -1,4 +1,4 @@
-﻿"use strict";
+"use strict";
 
 window.onload = init;
 
@@ -21,12 +21,12 @@ function init() {
     photo.onchange = () => {
         if (photo.files.length > 0) controlerPhoto(photo.files[0]);
     };
-    btnAjouter.onclick = ajouter;
+    btnModifier.onclick = modifierP;
     pied.style.visibility = 'visible';
 }
 
 // ------------------------------------------------
-// fonction de traitement concernant l'ajout
+// fonction de traitement concernant la modification
 // ------------------------------------------------
 
 /**
@@ -42,32 +42,3 @@ function controlerPhoto(file) {
     } else
         messagePhoto.innerHTML = controle.reponse;
 }
-
-
-/**
- *
- * @param {file} file objet file et nom du partenaire à ajouter dans les partenaires
- */
-function ajouter(file) {
-    messagePhoto.innerHTML = "";
-    let monFormulaire = new FormData();
-    monFormulaire.append('fichier', leFichier);
-    monFormulaire.append('nom', nom.value);
-    $.ajax({
-        url: 'ajax/ajouter.php',
-        type: 'POST',
-        data: monFormulaire,
-        processData: false,
-        contentType: false,
-        dataType: 'json',
-        error: reponse => {
-            messagePhoto.innerHTML = reponse.responseText
-        },
-        success: function () {
-            Std.afficherSucces("Logo ajoutée");
-        }
-    });
-}
-
-
-

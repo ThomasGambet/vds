@@ -33,7 +33,7 @@ function getLesPhotos() {
 }
 
 /**
- * afficher les photos contenu dans le répertoire photo/information du site
+ * afficher les photos contenues dans le répertoire photo/information du site
  * @param {object}data liste des photos au format json
  */
 function afficher(data) {

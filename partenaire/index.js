@@ -12,6 +12,34 @@ window.onload = init
  */
 function init() {
 
-    pied.style.visibility = 'visible';
-}
+    $('[data-toggle="tooltip"]').tooltip();
+    $("#leTableau").tablesorter({
+        headers: {
+            3: {sorter: false}
+        }
+    });
 
+
+    $.ajax({
+        url: 'ajax/getlespartenaires.php',
+        dataType: 'json',
+        error: reponse => {
+            msg.innerHTML = Std.genererMessage(reponse.responseText)
+        },
+        success: function (data) {
+            for (const partenaire of data) {
+                let tr = lesLignes.insertRow();
+
+                tr.insertCell().innerText = partenaire.nom;
+                tr.insertCell().innerText = partenaire.logo;
+                tr.insertCell().innerText = partenaire.actif;
+            }
+            $("#leTableau").trigger('update');
+
+            pied.style.visibility = 'visible';
+        }
+
+    });
+
+
+}

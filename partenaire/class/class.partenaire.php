@@ -58,7 +58,7 @@ EOD;
     {
         $db = Database::getInstance();
         $sql = <<<EOD
-            Select nom, logo
+            Select nom, logo, actif
             From partenaire
             Order by nom;
 EOD;
