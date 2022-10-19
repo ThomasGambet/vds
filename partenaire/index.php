@@ -25,7 +25,7 @@ require RACINE . '/include/head.php';
     <div class="col-6 text-center ">
         <div class="card">
             <div class="card-header">
-                <a href="modifier.php" class="btn btn btn-danger">Modifier les partenaires</a>
+                <a href="modification.php" class="btn btn btn-danger">Modifier les partenaires</a>
             </div>
             <div class="card-body">
                 Permet de modifier les partenaires.

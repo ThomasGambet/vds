@@ -1,4 +1,4 @@
-﻿"use strict";
+"use strict";
 
 window.onload = init;
 
@@ -9,6 +9,15 @@ let leFichier = null;
  *  Mise en place des gestionnaires d'événements pour l'upload
  */
 function init() {
+
+    // chargement des catégories pour alimenter la zone de liste
+    $.ajax({
+        url: 'ajax/getlespartenaires.php',
+        dataType: "json",
+        error: response => console.error(response.responseText),
+        success: remplirListeCategorie
+    });
+
 
     // paramétrage de la zone d'upload
     new bootstrap.Popover(cible);
@@ -21,12 +30,34 @@ function init() {
     photo.onchange = () => {
         if (photo.files.length > 0) controlerPhoto(photo.files[0]);
     };
-    btnAjouter.onclick = ajouter;
+    btnModifier.onclick = modifier;
     pied.style.visibility = 'visible';
 }
 
+function remplirListeCategorie(data) {
+    for (const element of data) {
+        idPartenaire.add(new Option(element.nom, element.logo));
+    }
+    afficher();
+}
+
+function afficher(data) {
+    nom.value = data.nom;
+    logo.value = data.logo;
+    actif.value = data.actif
+
+    // sauvegarde des valeurs initiales afin de détecter une modification
+    nom.dataset.old = data.nom;
+    logo.dataset.old = data.logo;
+    actif.dataset.old = data.actif
+
+    // mise à jour au niveau de l'interface : le bouton supprimer
+    btnSupprimer.disabled = data.nb > 0;
+    nom.focus();
+}
+
 // ------------------------------------------------
-// fonction de traitement concernant l'ajout
+// fonction de traitement concernant la modification
 // ------------------------------------------------
 
 /**
@@ -48,13 +79,13 @@ function controlerPhoto(file) {
  *
  * @param {file} file objet file et nom du partenaire à ajouter dans les partenaires
  */
-function ajouter(file) {
+function modifier(file) {
     messagePhoto.innerHTML = "";
     let monFormulaire = new FormData();
     monFormulaire.append('fichier', leFichier);
     monFormulaire.append('nom', nom.value);
     $.ajax({
-        url: 'ajax/ajouter.php',
+        url: 'ajax/modifier.php',
         type: 'POST',
         data: monFormulaire,
         processData: false,
@@ -64,10 +95,7 @@ function ajouter(file) {
             messagePhoto.innerHTML = reponse.responseText
         },
         success: function () {
-            Std.afficherSucces("Logo ajouté");
+            Std.afficherSucces("Logo modifié");
         }
     });
 }
-
-
-
