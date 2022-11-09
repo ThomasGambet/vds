@@ -5,7 +5,7 @@ class Profil
     /**
      * Retourne le login et l'e-mail
      * @param string $nom Nom du membre
-     * @param string $prenom PRénom du membre
+     * @param string $prenom Prénom du membre
      * @return array|bool
      */
     public static function getMembreByNomPrenom(string $nom, string $prenom): array|bool

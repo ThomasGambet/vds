@@ -27,7 +27,7 @@ require RACINE . '/include/head.php';
         </div>
         <input type="file" id="photo" accept=".jpg, .png, .gif" style='display:none'>
         <label class="col-form-label">Logo à ajouter</label>
-        <div id="cible" class="upload">
+        <div id="cible" class="upload col-md-6 col-12">
             <i class="bi bi-cloud-upload m-1" style="font-size:2rem"></i>
             Déposer le logo (png ou jpg) dans ce cadre (taille limitée à 30 Ko)
         </div>

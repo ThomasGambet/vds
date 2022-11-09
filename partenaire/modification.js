@@ -10,12 +10,12 @@ let leFichier = null;
  */
 function init() {
 
-    // chargement des catégories pour alimenter la zone de liste
+    // chargement des partenaires pour alimenter la zone de liste
     $.ajax({
         url: 'ajax/getlespartenaires.php',
         dataType: "json",
         error: response => console.error(response.responseText),
-        success: remplirListeCategorie
+        success: remplirListePartenaire
     });
 
 
@@ -32,14 +32,52 @@ function init() {
     };
     btnModifier.onclick = modifier;
     pied.style.visibility = 'visible';
+
+
+    // Traitement déclenché sur le changement de valeur d'un champ de saisi
+    for (const input of document.querySelectorAll('input.ctrl')) {
+        input.onchange = () => input.nextElementSibling.innerText = input.validationMessage;
+    }
+
+    // traitements associés au champ nom
+    nom.onkeypress = (e) => {
+        if (!/^[A-Za-z0-9 ]$/.test(e.key)) return false;
+    };
+
+    // sur le chargement dans la zone de liste idPartenaire
+    idPartenaire.onchange = rechercher;
+
+    // Le bouton 'btnModifier'
+    btnModifier.onclick = modifier;
+
+    // le bouton 'btnSupprimer'
+    btnSupprimer.onclick = () => Std.confirmer(supprimer);
 }
 
-function remplirListeCategorie(data) {
+function remplirListePartenaire(data) {
     for (const element of data) {
-        idPartenaire.add(new Option(element.nom, element.logo));
+        idPartenaire.add(new Option(element.nom, element.id));
     }
     afficher();
 }
+
+
+function rechercher() {
+    // un message d'erreur précédent peut encore être affiché
+    for (const input of document.querySelectorAll('input.ctrl')) {
+        input.nextElementSibling.innerText = '';
+    }
+    // lancement de la recherche
+    $.ajax({
+        url: 'ajax/getbyid.php',
+        type: 'POST',
+        data: {id: idPartenaire.value},
+        dataType: "json",
+        success: afficher,
+        error: (reponse) => Std.afficherErreur(reponse.responseText)
+    })
+}
+
 
 function afficher(data) {
     nom.value = data.nom;
@@ -74,28 +112,71 @@ function controlerPhoto(file) {
         messagePhoto.innerHTML = controle.reponse;
 }
 
+function supprimer() {
+    $.ajax({
+        url: 'ajax/supprimer.php',
+        type: 'POST',
+        data: {id: idPartenaire.value},
+        dataType: "json",
+        success: function () {
+            Std.afficherSucces("Suppression réalisée");
+            // mettre à jour la zone de liste en supprimant l'otpion sélectionnée et relancer la recherche
+            let index = idPartenaire.selectedIndex;
+            idPartenaire.removeChild(idPartenaire[idPartenaire.selectedIndex]);
+            if (idPartenaire.length === 0) {
+                location.href = "..";
+            }
+            if (index == idPartenaire.length) {
+                idPartenaire.selectedIndex = index - 1;
+            } else {
+                idPartenaire.selectedIndex = index;
+            }
+            rechercher();
+        },
+        error: (reponse) => Std.afficherErreur(reponse.responseText)
+    })
+}
 
-/**
- *
- * @param {file} file objet file et nom du partenaire à ajouter dans les partenaires
- */
-function modifier(file) {
-    messagePhoto.innerHTML = "";
+function modifier() {
+    let erreur = false
+    for (const input of document.querySelectorAll('input.ctrl')) {
+        input.nextElementSibling.innerText = input.validationMessage;
+        if (!input.checkValidity()) erreur = true
+    }
+    if (erreur) return;
+    // demande de modification
+    // Transmission des champs modifiés
     let monFormulaire = new FormData();
-    monFormulaire.append('fichier', leFichier);
-    monFormulaire.append('nom', nom.value);
+    monFormulaire.append('id', idPartenaire.value);
+    if (nom.value !== nom.dataset.old) monFormulaire.append('nom', nom.value);
+    if (logo.value !== logo.dataset.old) monFormulaire.append('logo', logo.value);
+
+
+    // au moins un champ doit avoir été modifié donc monFormulaire doit posséder au moins deux paramètres
+    // il n'y a pas de méthode pour cela, il faut parcourir les clés et les compter
+    // if( monFormulaire.values()[Symbol.iterator].length < 2) {
+    let nb = 0;
+    for (const key of monFormulaire.keys()) nb++
+    //  Array.from(monFormulaire.entries()).length
+    if (nb < 2) {
+        Std.afficherErreur("Aucune modification constatée");
+        return;
+    }
+
+
+    // lancement de la demande de modification
     $.ajax({
         url: 'ajax/modifier.php',
         type: 'POST',
         data: monFormulaire,
         processData: false,
         contentType: false,
-        dataType: 'json',
-        error: reponse => {
-            messagePhoto.innerHTML = reponse.responseText
+        dataType: "json",
+        success: () => {
+            Std.afficherSucces("Modification enregistrée");
+            nom.dataset.old = nom.value;
+            logo.dataset.old = logo.value;
         },
-        success: function () {
-            Std.afficherSucces("Logo modifié");
-        }
-    });
+        error: (reponse) => Std.afficherErreur(reponse.responseText)
+    })
 }
