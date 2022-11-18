@@ -31,7 +31,6 @@ require RACINE . '/include/head.php';
                        class="form-control ctrl"
                        required
                        maxlength='30'
-                       pattern="^[A-Za-z]([A-Za-z ]*[A-Za-z])*$"
                        autocomplete="off">
                 <div class='messageErreur'></div>
             </div>
@@ -41,7 +40,7 @@ require RACINE . '/include/head.php';
                 <i class="bi bi-cloud-upload m-1" style="font-size:2rem"></i>
                 Déposer le logo (png ou jpg) dans ce cadre (taille limitée à 30 Ko)
             </div>
-            <span id="messagePhoto" class="messageErreur"></span>
+            <span id="messagePhoto"></span>
             <div id='lesPhotos' class="text-center mt-3"></div>
         </div>
         <div class="text-center">

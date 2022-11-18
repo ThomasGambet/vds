@@ -112,6 +112,7 @@ require RACINE . '/include/head.php';
     </div>
     <div class="card-body text-center">
         <div id='logo' class=""></div>
+
     </div>
 </div>
 

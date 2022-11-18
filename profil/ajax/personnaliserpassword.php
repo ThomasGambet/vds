@@ -48,7 +48,7 @@ $curseur->bindParam('password', $password);
 try {
     $curseur->execute();
     // suppression de l'obligation de personnaliser son mot de passe
-
+    unset($_SESSION['personnaliser']);
     echo 1;
 } catch (Exception $e) {
     echo substr($e->getMessage(), strrpos($e->getMessage(), '#') + 1);

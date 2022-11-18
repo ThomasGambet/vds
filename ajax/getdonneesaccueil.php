@@ -18,7 +18,7 @@ $lesDonnees['bandeau'] = base::getLeBandeau();
 
 // récupération du dernier résultat datant de moins de 15 jours concernant les coureurs du club paru sur le site de la ffa : table resultatffa
 
-// récupération des s
+// récupération des partenaires
 $lesDonnees['partenaire'] = base::getLesPartenaires();
 
 // vérification de l'existence de l'image et solution au problème de non-rafraichissement du cache

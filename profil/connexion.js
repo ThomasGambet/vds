@@ -71,8 +71,11 @@ function connecter() {
             error: reponse => {
                 msg.innerHTML = Std.genererMessage(reponse.responseText)
             },
-            success: (url) => {
-                location.href = url
+            success: () => {
+                if (password.value === '0000') {
+                    location.href = '/profil/personnalisationpassword.php'
+                } else
+                    location.href = "/index.php"
             }
         })
     }

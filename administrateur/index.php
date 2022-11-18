@@ -46,7 +46,7 @@ require RACINE . '/include/head.php';
 </div>
 <?php require RACINE . '/include/pied.php'; ?>
 
-<!-- Fenêtre nodale pour l'ajout d'un administrateur -->
+<!-- Fenêtre modale pour l'ajout d'un administrateur -->
 <div class="modal fade" id="frmAjout"
      tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
      data-bs-backdrop="true" data-bs-keyboard="true">

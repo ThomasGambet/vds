@@ -34,11 +34,16 @@ function init() {
  * @param {file} file objet file à contrôler
  */
 function controlerPhoto(file) {
+    cible.innerHTML = "";
     messagePhoto.innerHTML = "";
-    let controle = {taille: 300 * 100, lesExtensions: ["jpg", "png"]};
+    let controle = {taille: 30 * 1024, lesExtensions: ["jpg", "png"]};
     if (Std.fichierValide(file, controle)) {
         messagePhoto.innerText = file.name;
         leFichier = file;
+        let logo = document.createElement('img');
+        logo.src = URL.createObjectURL(file)
+        logo.style.height = "100px";
+        cible.appendChild(logo);
     } else
         messagePhoto.innerHTML = controle.reponse;
 }

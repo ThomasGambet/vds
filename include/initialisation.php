@@ -1,5 +1,13 @@
 <?php
 
+// Accès aux variables de session
+session_start();
+
+// contrôle prioritaire : utilisateur doit personnaliser son mot de passe
+if (isset($_SESSION['personnaliser'])) {
+    header('location:/profil/personnalisationpassword.php');
+}
+
 /**
  *  Mise en place de l'accès aux ressources
  * Appel depuis tous les scripts sauf ceux concernant la personnalisation du mot de passe.
@@ -16,7 +24,3 @@ spl_autoload_register(function ($name) {
     else
         require RACINE . "/$name/class/class.$name.php";
 });
-
-
-// Accès aux variables de session
-session_start();

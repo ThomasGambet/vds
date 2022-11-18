@@ -6,10 +6,6 @@
  */
 
 
-require '../../include/initialisation.php';
-require '../include/controleacces.php';
-
-
 // Vérification des paramètres attendus
 if (!isset($_POST['id'])) {
     echo "L'id du partenaire n'est pas transmis";
@@ -113,7 +109,7 @@ $set = substr($set, 0, -1) . " ";
 // requête de mise à jour
 $sql = <<<EOD
     update partenaire
-    $set
+    $set 
     where id = :id;
 EOD;
 

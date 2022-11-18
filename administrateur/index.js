@@ -66,10 +66,10 @@ function init() {
 
             },
             onLoadEvent: function () {
+                id = null;
                 let lesValeurs = $nomPrenom.getItems();
                 if (lesValeurs.length === 0) {
                     messageNomPrenom.innerText = "Aucun nom ne correspond";
-                    id = null;
                 }
             }
         }
@@ -138,7 +138,7 @@ function ajouterAdministrateur() {
     msgFrmAjout.innerText = "";
     messageNomPrenom.innerText = "";
     if (id == null) {
-        messageNomPrenom.innerText = "Il faux sélectionner un membre dans la liste à partir de la saisie de son nom"
+        messageNomPrenom.innerText = "Il faut sélectionner un membre dans la liste à partir de la saisie de son nom"
     } else {
         // demande d'ajout
         $.ajax({
@@ -149,13 +149,35 @@ function ajouterAdministrateur() {
             success: function () {
                 // ajout dans la zone de liste
                 idMembre.add(new Option(nomPrenom.value, id));
+                // fermeture de la fenêtre modale
+                $("#frmAjout").modal("hide")
+
+                // méthode pour le message d'erreur
+                let parametre = {
+                    message: "<div class='m-3' style='text-align: justify'>" + nomPrenom.value + " fait maintenant partie des administrateurs.<br> Il vous reste à sélectionner les modules qu'il peut gérer.",
+                    type: 'success',
+                    fermeture: 1,
+                    surFermeture: function () {
+                        // effacement des données
+                        $nomPrenom.val('');
+                        id = null;
+                    }
+                }
+                Std.afficherMessage(parametre);
+                //autre méthode pour le message d'erreur
+                /*Std.confirmerSucces(nomPrenom.value + ' ' + "fait maintenant partie des administrateurs.<br> Il vous reste à sélectionner les modules qu'il peut gérer.");*/
+
+                // l'admin qui vient d'être ajouté est automatiquement sélectionné dans la zone de liste
+                idMembre.selectedIndex = idMembre.length - 1;
+                decocherCase();
+                // autre méthode pour le commentaire précédent
+                /*decocherCase();
+                idMembre.value = id;
+                idMembre.nom = $nomPrenom;*/
+
                 // effacement des données
                 $nomPrenom.val('');
                 id = null;
-                // fermeture de la fenêtre modale
-                $("#frmAjout").modal("hide")
-                Std.afficherSucces('Administrateur ajouté');
-
             },
             error: reponse => msgFrmAjout.innerHTML = Std.genererMessage(reponse.responseText),
         });

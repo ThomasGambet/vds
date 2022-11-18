@@ -58,7 +58,7 @@ function remplirListePartenaire(data) {
     for (const element of data) {
         idPartenaire.add(new Option(element.nom, element.id));
     }
-    afficher();
+    rechercher();
 }
 
 
@@ -80,14 +80,18 @@ function rechercher() {
 
 
 function afficher(data) {
+    messagePhoto.innerText = data.logo;
+    cible.innerHTML = "";
     nom.value = data.nom;
-    logo.value = data.logo;
-    actif.value = data.actif
+    let logo = document.createElement('img');
+    logo.src = 'data/img/' + data.logo;
+    logo.style.height = "100px";
+    cible.appendChild(logo);
+
 
     // sauvegarde des valeurs initiales afin de détecter une modification
     nom.dataset.old = data.nom;
-    logo.dataset.old = data.logo;
-    actif.dataset.old = data.actif
+    photo.dataset.old = data.logo;
 
     // mise à jour au niveau de l'interface : le bouton supprimer
     btnSupprimer.disabled = data.nb > 0;
@@ -103,13 +107,18 @@ function afficher(data) {
  * @param {file} file objet file à contrôler
  */
 function controlerPhoto(file) {
+    cible.innerHTML = "";
     messagePhoto.innerHTML = "";
-    let controle = {taille: 300 * 100, lesExtensions: ["jpg", "png"]};
+    let controle = {taille: 30 * 1024, lesExtensions: ["jpg", "png"]};
     if (Std.fichierValide(file, controle)) {
         messagePhoto.innerText = file.name;
         leFichier = file;
+        let logo = document.createElement('img');
+        logo.src = URL.createObjectURL(file)
+        logo.style.height = "100px";
+        cible.appendChild(logo);
     } else
-        messagePhoto.innerHTML = controle.reponse;
+        cible.innerHTML = controle.reponse;
 }
 
 function supprimer() {
@@ -120,7 +129,7 @@ function supprimer() {
         dataType: "json",
         success: function () {
             Std.afficherSucces("Suppression réalisée");
-            // mettre à jour la zone de liste en supprimant l'otpion sélectionnée et relancer la recherche
+            // mettre à jour la zone de liste en supprimant l'option sélectionnée et relancer la recherche
             let index = idPartenaire.selectedIndex;
             idPartenaire.removeChild(idPartenaire[idPartenaire.selectedIndex]);
             if (idPartenaire.length === 0) {
@@ -149,7 +158,7 @@ function modifier() {
     let monFormulaire = new FormData();
     monFormulaire.append('id', idPartenaire.value);
     if (nom.value !== nom.dataset.old) monFormulaire.append('nom', nom.value);
-    if (logo.value !== logo.dataset.old) monFormulaire.append('logo', logo.value);
+    if (leFichier !== logo.dataset.old) monFormulaire.append('fichier', leFichier);
 
 
     // au moins un champ doit avoir été modifié donc monFormulaire doit posséder au moins deux paramètres
