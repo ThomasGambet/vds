@@ -135,7 +135,7 @@ function supprimer() {
             if (idPartenaire.length === 0) {
                 location.href = "..";
             }
-            if (index == idPartenaire.length) {
+            if (index === idPartenaire.length) {
                 idPartenaire.selectedIndex = index - 1;
             } else {
                 idPartenaire.selectedIndex = index;
@@ -158,7 +158,7 @@ function modifier() {
     let monFormulaire = new FormData();
     monFormulaire.append('id', idPartenaire.value);
     if (nom.value !== nom.dataset.old) monFormulaire.append('nom', nom.value);
-    if (leFichier !== logo.dataset.old) monFormulaire.append('fichier', leFichier);
+    if (photo.files[0].name !== photo.dataset.old) monFormulaire.append('logo', photo.files[0].name);
 
 
     // au moins un champ doit avoir été modifié donc monFormulaire doit posséder au moins deux paramètres
@@ -184,7 +184,7 @@ function modifier() {
         success: () => {
             Std.afficherSucces("Modification enregistrée");
             nom.dataset.old = nom.value;
-            logo.dataset.old = logo.value;
+            photo.dataset.old = photo.value;
         },
         error: (reponse) => Std.afficherErreur(reponse.responseText)
     })

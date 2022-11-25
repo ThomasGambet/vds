@@ -40,14 +40,14 @@ function modifier() {
             error: reponse => {
                 msg.innerHTML = Std.genererMessage(reponse.responseText)
             },
-            success: function (data) {
+            success: function (url) {
                 Std.viderLesChamps();
                 let parametre = {
                     message: "Votre nouveau mot de passe est pris en compte.",
                     type: 'success',
                     fermeture: 1,
                     surFermeture: function () {
-                        document.location.href = "/index.php";
+                        document.location.href = url;
                     }
                 }
                 Std.afficherMessage(parametre);

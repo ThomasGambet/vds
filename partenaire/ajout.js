@@ -45,7 +45,7 @@ function controlerPhoto(file) {
         logo.style.height = "100px";
         cible.appendChild(logo);
     } else
-        messagePhoto.innerHTML = controle.reponse;
+        cible.innerHTML = controle.reponse;
 }
 
 
@@ -69,7 +69,7 @@ function ajouter(file) {
             messagePhoto.innerHTML = reponse.responseText
         },
         success: function () {
-            Std.afficherSucces("Logo ajouté");
+            Std.afficherSucces("Partenaire ajouté");
         }
     });
 }

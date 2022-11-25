@@ -12,14 +12,6 @@ window.onload = init
  */
 function init() {
 
-    $('[data-toggle="tooltip"]').tooltip();
-    $("#leTableau").tablesorter({
-        headers: {
-            3: {sorter: false}
-        }
-    });
-
-
     $.ajax({
         url: 'ajax/getlespartenaires.php',
         dataType: 'json',

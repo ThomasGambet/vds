@@ -1,4 +1,7 @@
 <?php
+
+require '../../include/controleacces.php';
+
 // Vérification des paramètres attendus
 if (!isset($_POST['id'])) {
     echo "L'id du partenaire n'est pas transmis";

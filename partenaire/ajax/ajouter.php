@@ -5,7 +5,6 @@
  * Résultat : 1 ou message d'erreur
  */
 
-
 require '../../include/initialisation.php';
 require '../../include/controleacces.php';
 

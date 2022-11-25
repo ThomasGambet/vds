@@ -5,6 +5,10 @@
  * Résultat : 1 ou message d'erreur
  */
 
+require '../../include/initialisation.php';
+require '../../include/controleacces.php';
+
+const REP_PHOTO = RACINE . '/partenaire/data/img/';
 
 // Vérification des paramètres attendus
 if (!isset($_POST['id'])) {
@@ -13,7 +17,7 @@ if (!isset($_POST['id'])) {
 }
 
 // récupération des paramètres
-$id = strtoupper(trim($_POST['id']));
+$id = trim($_POST['id']);
 
 // il faut au moins transmettre un des champs suivant : nom, logo
 require '../../class/class.controle.php';
@@ -25,7 +29,7 @@ if (isset($_POST['nom'])) {
 }
 
 if (isset($_POST['logo'])) {
-    $logo = trim($_POST['logo']);
+    $photo = $_POST['logo'];
     $nb++;
 }
 
@@ -33,7 +37,6 @@ if ($nb === 0) {
     echo "Aucune modification demandée";
     exit;
 }
-
 
 // Contrôle des données
 require '../../class/class.database.php';
@@ -43,7 +46,7 @@ $erreur = false;
 if (empty($id)) {
     echo "\nL'id du partenaire doit être renseigné.";
     $erreur = true;
-} elseif (!preg_match("/^[0-9]{1}$/", $id)) {
+} elseif (!preg_match("/^[0-9]{2}$/", $id)) {
     echo "\nL'id du partenaire n'est pas conforme.";
     $erreur = true;
 } else {
@@ -78,7 +81,6 @@ if (isset($nom)) {
 	    Select 1 from partenaire
         where nom = :nom
         and id != :id;
-
 EOD;
         $curseur = $db->prepare($sql);
         $curseur->bindParam('nom', $nom);
@@ -102,8 +104,7 @@ if ($erreur) exit;
 // génération du contenu de la clause set
 $set = "set ";
 if (isset($nom)) $set .= " nom = :nom,";
-if (isset($logo)) $set .= " logo = :logo,";
-
+if (isset($photo)) $set .= " logo = :logo,";
 // il faut retirer la dernière virgule et ajouter un espace pour ne pas coller la clause where
 $set = substr($set, 0, -1) . " ";
 // requête de mise à jour
@@ -113,12 +114,11 @@ $sql = <<<EOD
     where id = :id;
 EOD;
 
-
 // passage des autres paramètres s'ils sont renseignés
 $curseur = $db->prepare($sql);
 $curseur->bindParam('id', $id);
 if (isset($nom)) $curseur->bindParam('nom', $nom);
-if (isset($logo)) $curseur->bindParam('logo', $logo);
+if (isset($photo)) $curseur->bindParam('logo', $photo);
 
 try {
     $curseur->execute();

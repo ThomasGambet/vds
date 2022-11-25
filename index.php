@@ -5,6 +5,50 @@
 
 require 'include/initialisation.php';
 
+/*
+Si la variable de session 'membre' n'existe pas mais que le cookie 'seSouvenir' existe
+    On récupère la valeur du cookie
+    On vérifie qu'elle correspond à un membre
+    si oui : On crée la variable de session 'membre'
+    si non : On supprime le cookie
+*/
+
+if (!isset($_SESSION['membre']) && isset($_COOKIE['seSouvenir'])) {
+    $seSouvenir = $_COOKIE['seSouvenir'];
+    // vérification du login
+    $db = Database::getInstance();
+    $sql = <<<EOD
+        Select id, login, nom, prenom
+        from membre
+        where sha2(concat(prenom, login, nom, :agent) , 256) = :empreinte;
+EOD;
+    $curseur = $db->prepare($sql);
+    $curseur->bindParam('empreinte', $seSouvenir);
+    $curseur->bindParam('agent', $_SERVER['HTTP_USER_AGENT']);
+
+    $curseur->execute();
+    $ligne = $curseur->fetch(PDO::FETCH_ASSOC);
+    $curseur->closeCursor();
+    if ($ligne) {
+        $_SESSION['membre']['id'] = $ligne['id'];
+        $_SESSION['membre']['login'] = $ligne['login'];
+        $_SESSION['membre']['nomPrenom'] = $ligne['prenom'] . ' ' . $ligne['nom'];
+        $option['path'] = '/';
+        $option['httponly'] = true;
+        $option['expires'] = time() + 3600 * 24 * 7;
+        //$empreinte = hash('sha256', $ligne['prenom'] . $ligne['login'] . $ligne['nom']);
+        $empreinte = hash('sha256', $ligne['prenom'] . $ligne['login'] . $ligne['nom'] . $_SERVER['HTTP_USER_AGENT']);
+
+    } else {
+        $option['path'] = '/';
+        $option['httponly'] = true;
+        $option['expires'] = time() - 1;
+        setcookie('seSouvenir', 0, $option);
+    }
+}
+/* fin du contrôle du cookie */
+
+
 // Génération du contenu du cadre membre
 $cadreMembre = "";
 if (isset($_SESSION['membre'])) {

@@ -30,7 +30,8 @@ require RACINE . '/include/head.php';
                     </div>
                 </label>
             </div>
-
+            <input type="checkbox" id="chkMemoriser">
+            <label for="chkMemoriser">Se souvenir de moi</label>
 
             <div class="text-center mt-3 pl-3 pr-3">
                 <button id='btnValider' class="btn btn-danger">Se connecter</button>

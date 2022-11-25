@@ -9,10 +9,16 @@
  */
 
 require '../../include/initialisation.php';
+// vérification des données attendues
+if (!Controle::existe('login', 'password', 'memoriser')) {
+    echo "Paramètres manquants";
+    exit;
+}
 
 // récupération des données
 $login = $_POST["login"];
 $password = $_POST["password"];
+$memoriser = $_POST["memoriser"];
 
 if ($password === '0000') {
     $_SESSION['personnaliser'] = 1;
@@ -27,7 +33,21 @@ if ($ligne && $ligne['password'] === hash('sha256', $password)) {
     $_SESSION['membre']['id'] = $ligne['id'];
     $_SESSION['membre']['login'] = $ligne['login'];
     $_SESSION['membre']['nomPrenom'] = $ligne['prenom'] . ' ' . $ligne['nom'];
-    if (isset($_SESSION['url'])) {
+
+    if ($memoriser === '1') {
+        //$empreinte = hash('sha256', $ligne['prenom'] . $login . $ligne['nom']);
+        $empreinte = hash('sha256', $ligne['prenom'] . $login . $ligne['nom'] . $_SERVER['HTTP_USER_AGENT']);
+        $option['expires'] = time() + 3600 * 24 * 7;
+        $option['path'] = '/';
+        $option['httponly'] = true;
+        setcookie('seSouvenir', $empreinte, $option);
+    }
+
+
+    // prise en compte de l'url initialement demandée
+    if ($password === '0000') {
+        echo json_encode('personnalisationpassword.php');
+    } elseif (isset($_SESSION['url'])) {
         echo json_encode($_SESSION['url']);
         unset($_SESSION['url']);
     } else {
