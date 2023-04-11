@@ -12,11 +12,19 @@ window.onload = init;
 function init() {
     btnValider.onclick = connecter;
 
-    login.onkeypress = (e) => { if (e.key === 'Enter') password.focus(); }
-    login.onfocus = () => { messageLogin.innerText = ""}
+    login.onkeypress = (e) => {
+        if (e.key === 'Enter') password.focus();
+    }
+    login.onfocus = () => {
+        messageLogin.innerText = ""
+    }
 
-    password.onkeypress = (e) => { if (e.key === 'Enter') connecter(); }
-    password.onfocus = () => { messagePassword.innerText = ""}
+    password.onkeypress = (e) => {
+        if (e.key === 'Enter') connecter();
+    }
+    password.onfocus = () => {
+        messagePassword.innerText = ""
+    }
 
     pied.style.visibility = 'visible';
     login.focus();

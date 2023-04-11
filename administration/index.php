@@ -23,7 +23,24 @@ require 'include/head.php';
                     Contrôle d'accès module
                 </a>
             </div>
-
+            <div class="col-xl-3  col-md-4 col-sm-6 ">
+                <a class="btn btn-sm btn-outline-dark m-2 shadow-sm " href="affichagejournal.php?id=connexion"
+                   style="display : block;  width:220px">
+                    Journal des connexions
+                </a>
+            </div>
+            <div class="col-xl-3  col-md-4 col-sm-6 ">
+                <a class="btn btn-sm btn-outline-dark m-2 shadow-sm " href="affichagejournal.php?id=requete"
+                   style="display : block;  width:220px">
+                    Journal des requêtes
+                </a>
+            </div>
+            <div class="col-xl-3 col-md-4 col-sm-6 ">
+                <a class="btn btn-sm btn-outline-dark m-2 shadow-sm " href="sauvegarde.php"
+                   style="display : block; width:220px">
+                    Sauvegarde de la base de données
+                </a>
+            </div>
         </div>
     </div>
 </div>

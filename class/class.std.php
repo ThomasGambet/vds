@@ -135,7 +135,7 @@ EOD;
 // ------------------------------------------------------------------------------
 
     /**
-     * Mémoriser l'erreur dans le fichier erreur.log et rediriger  l'utilisateur vers la page erreur/index.php
+     * Mémoriser l'erreur dans le fichier erreur.log et rediriger l'utilisateur vers la page erreur/index.php
      * @param string $libelle Libellé de l'erreur
      * @return void
      */
@@ -175,13 +175,51 @@ EOD;
 // méthode concernant la traçabilité
 // ------------------------------------------------------------------------------
 
+    public static function getIp(): string
+    {
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+        return $ip;
+    }
 
-
-
+    public static function tracerDemande($nom, $parametre)
+    {
+        $fichier = fopen(RACINE . "/data/log/$nom.log", "a");
+        $ligne = date('d/m/Y H:i:s') . "\t" . $_SERVER['PHP_SELF'] . "\t" . $parametre . "\n";
+        fwrite($fichier, $ligne);
+    }
 
 // ------------------------------------------------------------------------------
 // méthode concernant les statistiques
 // ------------------------------------------------------------------------------
 
+    public static function comptabiliserVisite(): void
+    {
+        $db = Database::getInstance();
+        $db->exec("call comptabiliserVisite()");
+    }
+
+    public static function enregistrerConnexion(int $id): void
+    {
+        $db = Database::getInstance();
+        $sql = "call enregistrerConnexion(:id)";
+        $curseur = $db->prepare($sql);
+        $curseur->bindParam('id', $id);
+        $curseur->execute();
+    }
+
+    public static function majStatistique(string $nom): void
+    {
+        $db = Database::getInstance();
+        $sql = "call majStatistique(:nom)";
+        $curseur = $db->prepare($sql);
+        $curseur->bindParam('nom', $nom);
+        $curseur->execute();
+    }
 
 }

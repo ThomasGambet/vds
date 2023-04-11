@@ -50,10 +50,10 @@ class Mail {
     public function envoyer(string $destinataire, string $sujet, string $message) : int
     {
         $this->mail->isHTML(true); // Set email format to HTML
-        $this->mail->Subject = utf8_decode($sujet);
-        $this->mail->Body = utf8_decode($message);
+        $this->mail->Subject = mb_convert_encoding($sujet, 'ISO-8859-1');
+        $this->mail->Body = mb_convert_encoding($message, 'ISO-8859-1');
         // $this->mail->Body = $message;
-        $this->mail->AltBody = utf8_decode($message);
+        $this->mail->AltBody = mb_convert_encoding($message, 'ISO-8859-1');
         // $this->mail->AltBody = $message;
         $this->mail->addAddress($destinataire);
         try {
@@ -74,10 +74,10 @@ class Mail {
     public function envoyerAvec(string $destinataire, string $sujet, string $message, string $piece) : int
     {
         $this->mail->isHTML(true); // Set email format to HTML
-        $this->mail->Subject = utf8_decode($sujet);
-        $this->mail->Body = utf8_decode($message);
+        $this->mail->Subject = mb_convert_encoding($sujet, 'ISO-8859-1');
+        $this->mail->Body = mb_convert_encoding($message, 'ISO-8859-1');
         // $this->mail->Body = $message;
-        $this->mail->AltBody = utf8_decode($message);
+        $this->mail->AltBody = mb_convert_encoding($message, 'ISO-8859-1');
         // $this->mail->AltBody = $message;
         $this->mail->addAddress($destinataire);
         $this->mail->AddAttachment($piece);

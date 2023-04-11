@@ -6,18 +6,52 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Open Sans', sans-serif;
-    color: darkslategray;
-    font-weight: 400;
-}
-
 html,
 body {
     height: 100%;
 }
 
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: darkslategray;
+    font-weight: 400;
+    background-color: whitesmoke;
+}
 
+main {
+    flex-grow: 1;
+    margin: 5px 20px 5px 20px;
+}
+
+header {
+    min-height: 100px;
+
+}
+
+header, footer {
+    min-height: 100px;
+    vertical-align: middle;
+    color: white;
+    background-color: #00469c;
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    justify-content: space-between;
+}
+
+footer {
+    min-height: 50px;
+    visibility: hidden;
+}
+
+.formulaire {
+    margin: 5px 20px 5px 20px;
+    padding: 10px;
+    background-color: whitesmoke;
+    color: darkblue;
+    border-radius: 30px;
+    border: darkblue 1px solid;
+}
 
 /*  Tableau */
 

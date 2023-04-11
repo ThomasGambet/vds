@@ -1,7 +1,7 @@
- // Classe static comprenant un ensemble de méthode standard au niveau affichage, conversion
-// Version : 2022.4
+// Classe static comprenant un ensemble de méthode standard au niveau affichage, conversion
+// Version : 2023.3
 // Nécessite Bootstrap 5.0 et sa bibliothèque d'icônes + composant noty et animate.css
-// Date mise à jour : 29/08/2022
+// Date mise à jour : 17/02/2023
 
 class Std {
 
@@ -26,12 +26,10 @@ class Std {
         if (couleur === 'vert') {
             code = '#1FA055';
             icone = "bi-check-circle";
-        }
-        else if (couleur === 'rouge') {
+        } else if (couleur === 'rouge') {
             code = '#C60800';
             icone = "bi-x-circle";
-        }
-        else if (couleur === 'orange') {
+        } else if (couleur === 'orange') {
             code = '#FF7415';
             icone = "bi-exclamation-triangle";
         }
@@ -46,7 +44,7 @@ class Std {
     }
 
     /**
-     * Affiche un message dans une fenêtre modale 'Noty' entièrement paramètrable
+     * Affiche un message dans une fenêtre modale 'Noty'
      * Nécessite le composant noty
      * @param {object} parametre doit contenir les propriétés suivantes
      * <br> message : message à afficher
@@ -102,7 +100,7 @@ class Std {
     }
 
     /**
-     * Affiche le message d'erreur dans une boîte de dialogue que l'utilisateur doit fermer
+     * Affiche le message d'erreur dans une boîte de dialogue
      * @param {string} message message à afficher
      */
 
@@ -148,7 +146,7 @@ class Std {
     }
 
     /**
-     * Affiche le message de succès dans une boîte de dialogue que l'utilisateur devrait fermer
+     * Affiche le message d'erreur dans une boîte de dialogue
      * @param {string} message message à afficher
      */
 
@@ -172,7 +170,28 @@ class Std {
         n.show();
     }
 
-	/**
+    static retournerVers(message, page) {
+        let n = new Noty({
+            text: message,
+            type: 'success',
+            modal: true,
+            layout: 'center',
+            theme: 'sunset',
+            animation: {
+                open: 'animated lightSpeedI',
+                close: 'animated lightSpeedOut'
+            },
+            callbacks: {
+                onClose: () => {
+                    location.href = page
+                }
+            }
+        });
+        n.show().setTimeout(500);
+    }
+
+
+    /**
      * Demande de confirmation avant de lancer un traitement
      * @param {object} action pointeur sur la fonction à lancer
      */
@@ -205,29 +224,29 @@ class Std {
 // ------------------------------------------------------------
 
     /**
-     * Contrôle la valeur d'un champ 
+     * Contrôle la valeur d'un champ
      * En cas d'erreur afficher un message d'erreur sous le champ
-	 * Attribue la classe 'erreur' au champ ce qui ajoute une image à la fin du champ  
+     * Attribue la classe 'erreur' au champ ce qui ajoute une image à la fin du champ
      * condition : balise div après le champ possédant, présence style input.erreur
-     * @param { inputElement} input doit pointer la balise input
+     * @param { input} input doit pointer la balise input
      * @return {boolean}
      */
     static controler(input) {
         input.nextElementSibling.innerText = input.validationMessage;
-		if (input.checkValidity()) {
-			input.classList.remove("erreur");
-			return true;
-		} else {
-			input.classList.add("erreur");
-			return false;
-		}
+        if (input.checkValidity()) {
+            input.classList.remove("erreur");
+            return true;
+        } else {
+            input.classList.add("erreur");
+            return false;
+        }
     }
 
     /**
-     * Contrôle la valeur d'un champ 
+     * Contrôle la valeur d'un champ
      * En cas d'erreur change la couleur du texte et  de la bordure
-     * @param {object} champ
-     * @returns {boolean}
+     * @param input
+     * @return {boolean}
      */
     static verifier(input) {
         if (input.checkValidity()) {
@@ -259,7 +278,7 @@ class Std {
         // si la taille à ne pas dépasser est précisée on contrôle la taille du pdf
         if (controle.taille && file.size > controle.taille) {
             let size = this.conversionOctet(file.size, "Ko");
-            let taille =  Std.conversionOctet(controle.taille, "Ko");
+            let taille = Std.conversionOctet(controle.taille, "Ko");
             controle.reponse = `La taille du fichier (${size}) dépasse la taille autorisée (${taille})`;
             return false;
 
@@ -285,9 +304,13 @@ class Std {
      */
     static donneesValides() {
         let valide = true
-        for(const input of document.getElementsByClassName('ctrl')) {
+        for (const input of document.getElementsByClassName('ctrl')) {
+            // important : un champ disabled est toujours valide !
+            let disabled = input.disabled;
+            if (disabled) input.disabled = false;
             input.nextElementSibling.innerText = input.validationMessage
-            if(!input.checkValidity()) valide = false;
+            if (!input.checkValidity()) valide = false;
+            if (disabled) input.disabled = true;
         }
         return valide;
     }
@@ -301,6 +324,14 @@ class Std {
         }
     }
 
+    static effacerLesErreurs() {
+        for (const div of document.getElementsByClassName('messageErreur')) {
+            div.innerText = ''
+        }
+        msg.innerText = "";
+    }
+
+
 // ------------------------------------------------------------
 // fonctions diverses de conversion et mise en forme
 // ------------------------------------------------------------
@@ -312,7 +343,7 @@ class Std {
      */
 
     static encoderDate(date) {
-        return date.substr(6) + '-' + date.substr(3, 2) + '-' + date.substr(0, 2);
+        return date.substring(6) + '-' + date.substring(3, 6) + '-' + date.substring(0, 2);
     }
 
     /**
@@ -322,7 +353,7 @@ class Std {
      */
 
     static decoderDate(date) {
-        return date.substr(8) + '/' + date.substr(5, 2) + '/' + date.substr(0, 4);
+        return date.substring(8) + '/' + date.substring(5, 8) + '/' + date.substring(0, 4);
     }
 
     /**
@@ -336,10 +367,10 @@ class Std {
             let lesMots = nom.trim().split(" ");
             for (let mot of lesMots)
                 if (mot.length >= 2)
-                    resultat += mot[0].toUpperCase() + mot.substr(1).toLowerCase() + " ";
+                    resultat += mot[0].toUpperCase() + mot.substring(1).toLowerCase() + " ";
                 else if (mot.length === 1)
                     resultat += mot[0].toUpperCase() + " ";
-            resultat = resultat.substr(0, resultat.length - 1);
+            resultat = resultat.substring(0, resultat.length - 1);
         }
         return resultat;
     }

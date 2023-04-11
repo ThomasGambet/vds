@@ -23,7 +23,11 @@ function init() {
                 let tr = lesLignes.insertRow();
 
                 tr.insertCell().innerText = partenaire.nom;
-                tr.insertCell().innerText = partenaire.logo;
+                let img = document.createElement('img');
+                img.src = '../data/logopartenaire/' + partenaire.logo;
+                img.style.height = "100px";
+                img.alt = "";
+                tr.appendChild(img);
                 tr.insertCell().innerText = partenaire.actif;
             }
             $("#leTableau").trigger('update');

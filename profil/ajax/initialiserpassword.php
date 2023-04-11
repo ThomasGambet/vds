@@ -21,7 +21,11 @@ $code = $_POST["code"];
 
 
 // Cas 1 : la durée de validité du code est dépassée
-
+if (!isset($_COOKIE["code"])) {
+    echo "Votre code de vérification n'est plus valide";
+    unset($_SESSION['code']);
+    exit;
+}
 
 // Cas 2 : Le code n'est pas correct
 $code = $_POST['code'];
@@ -36,8 +40,9 @@ if ($code != $_SESSION['code']) {
 // Cas 4 : Tout est ok Mise à jour du mot de passe et suppression du cookie et de la variable de session
 
 $sql = <<<EOD
-
-
+    update membre
+        set password = sha2(:password,256)
+    where login = :login
 EOD;
 $db = Database::getInstance();
 $curseur = $db->prepare($sql);
@@ -45,8 +50,9 @@ $curseur->bindParam('login', $login);
 $curseur->bindParam('password', $password);
 $curseur->execute();
 // suppression de la variable de session
-
+unset($_SESSION['code']);
 
 // suppression du cookie associé
+setcookie("code", 1, time() - 1, '/');
 
 echo 1;

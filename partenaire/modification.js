@@ -84,7 +84,7 @@ function afficher(data) {
     cible.innerHTML = "";
     nom.value = data.nom;
     let logo = document.createElement('img');
-    logo.src = 'data/img/' + data.logo;
+    logo.src = '../data/logopartenaire/' + data.logo;
     logo.style.height = "100px";
     cible.appendChild(logo);
 

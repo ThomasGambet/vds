@@ -8,8 +8,7 @@
 require '../../include/initialisation.php';
 require '../../include/controleacces.php';
 
-const REP_PHOTO = RACINE . '/partenaire/data/img/';
-
+const REP_PHOTO = RACINE . '/data/logopartenaire/';
 
 // contrôle de l'existence des paramètres attendus
 if (!Controle::existe('nom')) {

@@ -41,9 +41,15 @@ $nom = $ligne['nom'];
 $email = $ligne['email'];
 
 // génération et sauvegarde du code de réinitialisation dans une variable de session
+$code = "";
+for ($i = 1; $i <= 6; $i++)
+    $code .= rand(0, 9);
 
+$_SESSION['code'] = $code;
 
 // la variable de session est associée à un cookie afin de limiter sa durée de vie à 5 minutes
+// (Le nom du cookie, sa valeur, sa durée time() =temps actuel et 300 =5min soit 60*5, d'où il est utilisé '/' =racine du site)
+setcookie("code", 1, time() + 300, '/');
 
 
 // envoi du mail
@@ -68,7 +74,7 @@ EOD;
 $mail = new Mail();
 $mail->envoyer($email, $sujet, $contenu);
 
-echo 1;
+echo json_encode($code);
 
 
 

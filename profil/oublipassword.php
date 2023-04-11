@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  Affichage de l'interface permettant à un  membre de réinitialiser son mot de passe en cas d'oubli
+ *  Affichage de l'interface permettant à un membre de réinitialiser son mot de passe en cas d'oubli
  * Appel : Depuis la page d'accueil Cadre Membrede connexion
  */
 
@@ -21,7 +21,7 @@ require RACINE . '/include/head.php';
         </div>
         <div class="card-body">
             <div id="msg" class="m-3"></div>
-            <div id="zone1" style="display:none">
+            <div id="zone1" style="display:block">
                 <div class="form-group text-left">
                     <label class='' for="login">Entrez votre login, nous allons vous envoyer par mail un code pour
                         réinitialiser votre mot de passe.</label>

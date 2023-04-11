@@ -8,10 +8,13 @@
  */
 
 
-
 // la variable $titreFonction doit être créée si elle n'existe pas
 if (!isset($titreFonction))
-    $titreFonction = "";
+    $titreFonction = $_SERVER['PHP_SELF'];
+
+// Comptabilisation de la fonction demandée
+Std::majStatistique($titreFonction);
+
 
 // personnalisation de l'entête de page : bouton Se connecter ou Se déconnecter
 $barre = "<a class='btn btn-sm btn-danger m-2 shadow-sm' href='/profil/connexion.php'>Se connecter</a>";
@@ -29,6 +32,7 @@ EOD;
 
 <!DOCTYPE html>
 <html lang="fr">
+<body>
 <head>
     <title>Amicale du Val de Somme</title>
     <meta charset="utf-8">
@@ -65,9 +69,9 @@ EOD;
         <h3 class="flex-grow-1 "><?= $titreFonction ?></h3>
         <a href="javascript:history.go(-1)"
            class="btn btn-outline-secondary"
-           title='Revenir à la page prècédente'
+           title='Revenir à la page précédente'
            data-bs-toggle='tooltip'
-           date-bs-placement='left'>
+           data-bs-placement='left'>
             <i class="bi bi-caret-left"></i>
         </a>
         <a href="/index.php" class="btn btn-outline-secondary ">
@@ -75,7 +79,7 @@ EOD;
                class="btn btn-outline-secondary"
                title="Revenir sur la page d'accueil"
                data-bs-toggle="tooltip"
-               date-bs-placement='left'></i>
+               data-bs-placement='left'></i>
         </a>
     </div>
     <main id="main" class="flex-grow-1 mx-3 ">

@@ -55,7 +55,7 @@ function afficher(data) {
     for (const partenaire of data.partenaire) {
         if (partenaire.actif === 1) {
             let img = document.createElement('img');
-            img.src = 'partenaire/data/img/' + partenaire.logo;
+            img.src = 'data/logopartenaire/' + partenaire.logo;
             img.alt = "";
             img.style.height = "100px";
             logo.appendChild(img)

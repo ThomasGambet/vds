@@ -36,8 +36,6 @@ require RACINE . '/include/head.php';
 
 <link rel="stylesheet" type="text/css"
       href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/css/theme.bootstrap_4.min.css"/>
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
 <div id="msg" class="m-3"></div>
 <div class='col-6 table-responsive mt-1'>
     <table id='leTableau' class='table'

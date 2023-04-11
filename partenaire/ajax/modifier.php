@@ -8,7 +8,7 @@
 require '../../include/initialisation.php';
 require '../../include/controleacces.php';
 
-const REP_PHOTO = RACINE . '/partenaire/data/img/';
+const REP_PHOTO = RACINE . '/data/logopartenaire/';
 
 // Vérification des paramètres attendus
 if (!isset($_POST['id'])) {
@@ -20,7 +20,7 @@ if (!isset($_POST['id'])) {
 $id = trim($_POST['id']);
 
 // il faut au moins transmettre un des champs suivant : nom, logo
-require '../../class/class.controle.php';
+//require '../../class/class.controle.php';
 $nb = 0;
 
 if (isset($_POST['nom'])) {
@@ -39,7 +39,7 @@ if ($nb === 0) {
 }
 
 // Contrôle des données
-require '../../class/class.database.php';
+//require '../../class/class.database.php';
 $db = Database::getInstance();
 $erreur = false;
 // id rappel : il n'est pas modifiable

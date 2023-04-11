@@ -31,8 +31,14 @@ function init() {
 
     // Choix de la phase à afficher : étape 1 : pas de cookie 'code', étape 2 : présence d'un cookie code
     // mais comment récupérer le login : le stocker à l'issue de la phase 1
-
-
+    if (document.cookie.indexOf('code') === -1) {
+        zone1.style.display = "block";
+        zone2.style.display = "none";
+    } else {
+        zone2.style.display = "block";
+        zone1.style.display = "none";
+        login.value = sessionStorage['login'];
+    }
 }
 
 /**
@@ -53,7 +59,7 @@ function envoyer() {
                 msg.innerHTML = Std.genererMessage(request.responseText, 'rouge')
             },
             success: (data) => {
-                let rep = `Un code pour réinitialiser votre mot de passe vient de vous être envoyé,
+                let rep = data + `Un code pour réinitialiser votre mot de passe vient de vous être envoyé,
                        veuillez consulter votre boîte mail et le saisir dans le champ code de vérification afin de valider votre nouveau mot de passe                       
                        <br>Ne tardez pas, ce code possède une durée de validité limitée à 5 minutes.
                        <br> Votre mot de passe doit respecter les régles de sécurité suivantes :
@@ -66,7 +72,9 @@ function envoyer() {
                         </div>`;
                 msg.innerHTML = Std.genererMessage(rep, 'vert');
                 // passer à la phase 2
-
+                zone1.style.display = 'none';
+                zone2.style.display = 'block';
+                sessionStorage['login'] = login.value;
 
             }
         })
@@ -98,7 +106,16 @@ function initialiser() {
             dataType: "json",
             error: reponse => msg.innerHTML = Std.genererMessage(reponse.responseText),
             success: () => {
-
+                let parametre = {
+                    message: "Votre mot de passe a été mis à jour",
+                    type: 'success',
+                    fermeture: 1,
+                    surFermeture: function () {
+                        document.location.href = "connexion.php";
+                        sessionStorage.removeItem("login");
+                    }
+                }
+                Std.afficherMessage(parametre);
             }
         });
     }

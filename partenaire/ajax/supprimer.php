@@ -1,6 +1,5 @@
 <?php
 
-require '../../include/controleacces.php';
 
 // Vérification des paramètres attendus
 if (!isset($_POST['id'])) {
