@@ -24,7 +24,7 @@ $id = trim($_POST['id']);
 $nb = 0;
 
 if (isset($_POST['nom'])) {
-    $nom = ucfirst(Controle::supprimerEspace($_POST['nom']));
+    $nomPartenaire = ucfirst(Controle::supprimerEspace($_POST['nom']));
     $nb++;
 }
 
@@ -68,11 +68,11 @@ if (empty($id)) {
 }
 
 // contrôle du nom si transmis
-if (isset($nom)) {
-    if (empty($nom)) {
+if (isset($nomPartenaire)) {
+    if (empty($nomPartenaire)) {
         echo "\nLe nom doit être renseigné.";
         $erreur = true;
-    } elseif (!preg_match("/^[A-Za-z][A-Za-z0-9 ]{4,19}$/", $nom)) {
+    } elseif (!preg_match("/^[A-Za-z][A-Za-z0-9 ]{4,19}$/", $nomPartenaire)) {
         echo "\nLe nom n'est pas conforme : 20 caractères max. : lettres non accentuées et chiffres et espaces espaces acceptés";
         $erreur = true;
     } else {
@@ -83,7 +83,7 @@ if (isset($nom)) {
         and id != :id;
 EOD;
         $curseur = $db->prepare($sql);
-        $curseur->bindParam('nom', $nom);
+        $curseur->bindParam('nom', $nomPartenaire);
         $curseur->bindParam('id', $id);
         $curseur->execute();
         $ligne = $curseur->fetch(PDO::FETCH_ASSOC);
@@ -103,7 +103,7 @@ if ($erreur) exit;
 
 // génération du contenu de la clause set
 $set = "set ";
-if (isset($nom)) $set .= " nom = :nom,";
+if (isset($nomPartenaire)) $set .= " nom = :nom,";
 if (isset($photo)) $set .= " logo = :logo,";
 // il faut retirer la dernière virgule et ajouter un espace pour ne pas coller la clause where
 $set = substr($set, 0, -1) . " ";
@@ -117,7 +117,7 @@ EOD;
 // passage des autres paramètres s'ils sont renseignés
 $curseur = $db->prepare($sql);
 $curseur->bindParam('id', $id);
-if (isset($nom)) $curseur->bindParam('nom', $nom);
+if (isset($nomPartenaire)) $curseur->bindParam('nom', $nomPartenaire);
 if (isset($photo)) $curseur->bindParam('logo', $photo);
 
 try {

@@ -12,12 +12,12 @@ const REP_PHOTO = RACINE . '/data/logopartenaire/';
 
 // contrôle de l'existence des paramètres attendus
 if (!Controle::existe('nom')) {
-    echo "Paramètre manquant";
+    echo "Nom manquant";
     exit;
 }
 
 if (!isset($_FILES['fichier'])) {
-    echo "Demande incomplète";
+    echo "Logo manquant";
     exit;
 }
 
@@ -62,6 +62,7 @@ while (file_exists(REP_PHOTO . $nomFichier)) $nomFichier = "$nomLogo(" . $i++ . 
 
 // copie sur le serveur
 copy($tmp, REP_PHOTO . $nomFichier);
+
 $reponse = "";
 Partenaire::ajouter($nom, $nomFichier, $reponse);
 echo 1;

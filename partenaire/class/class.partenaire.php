@@ -68,4 +68,10 @@ EOD;
         return $lesLignes;
     }
 
+
+    public static function modifierActif(int $id, string &$reponse): bool
+    {
+
+    }
+
 }

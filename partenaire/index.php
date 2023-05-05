@@ -7,6 +7,7 @@ require '../include/initialisation.php';
 require '../include/controleacces.php';
 $titreFonction = "Gestion des partenaires";
 require RACINE . '/include/head.php';
+require '../include/tablesorter.php';
 
 ?>
 <script src="index.js"></script>
@@ -38,10 +39,11 @@ require RACINE . '/include/head.php';
       href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/css/theme.bootstrap_4.min.css"/>
 <div id="msg" class="m-3"></div>
 <div class='col-6 table-responsive mt-1'>
-    <table id='leTableau' class='table'
+    <table id="leTableau" class="tablesorter-bootstrap"
            style="font-size: 1rem">
         <thead>
         <tr>
+            <th id="btnSupprimer" style=''>Suppression</th>
             <th style=''>Nom</th>
             <th style=''>Logo</th>
             <th style=''>visibilité</th>

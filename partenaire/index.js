@@ -21,21 +21,50 @@ function init() {
         success: function (data) {
             for (const partenaire of data) {
                 let tr = lesLignes.insertRow();
-
+                tr.insertCell().inputMode = btnSupprimer.onclick = () => Std.confirmer(supprimer);
                 tr.insertCell().innerText = partenaire.nom;
                 let img = document.createElement('img');
                 img.src = '../data/logopartenaire/' + partenaire.logo;
                 img.style.height = "100px";
                 img.alt = "";
                 tr.appendChild(img);
-                tr.insertCell().innerText = partenaire.actif;
+                tr.insertCell().inputMode = partenaire.actif;
             }
-            $("#leTableau").trigger('update');
+            $("#leTableau").tablesorter();
 
             pied.style.visibility = 'visible';
         }
 
     });
 
+    btnSupprimer.onclick = () => Std.confirmer(supprimer);
 
+}
+
+function supprimer() {
+    $.ajax({
+        url: 'ajax/supprimer.php',
+        type: 'POST',
+        data: {id: idPartenaire.value},
+        dataType: "json",
+        success: function () {
+            Std.afficherSucces("Suppression réalisée");
+            rechercher();
+        },
+        error: (reponse) => Std.afficherErreur(reponse.responseText)
+    })
+}
+
+function modifieractif() {
+    $.ajax({
+        url: 'ajax/modifieractif.php',
+        type: 'POST',
+        data: {id: idPartenaire.value},
+        dataType: "json",
+        success: function () {
+            Std.afficherSucces("Suppression réalisée");
+            rechercher();
+        },
+        error: (reponse) => Std.afficherErreur(reponse.responseText)
+    })
 }
